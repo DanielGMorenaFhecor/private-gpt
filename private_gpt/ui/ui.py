@@ -256,13 +256,13 @@ class PrivateGptUi:
     def _get_default_mode_explanation(mode: Modes) -> str:
         match mode:
             case Modes.RAG_MODE:
-                return "Get contextualized answers from selected files."
+                return "Obtén respuestas contextualizadas de los archivos seleccionados."
             case Modes.SEARCH_MODE:
-                return "Find relevant chunks of text in selected files."
+                return "Encuentra fragmentos de texto relevantes en los archivos seleccionados."
             case Modes.BASIC_CHAT_MODE:
-                return "Chat with the LLM using its training data. Files are ignored."
+                return "Chatea con el LLM usando sus datos de entrenamiento. Los archivos son ignorados."
             case Modes.SUMMARIZE_MODE:
-                return "Generate a summary of the selected files. Prompt to customize the result."
+                return "Genera un resumen de los archivos seleccionados. Usa un mensaje para personalizar el resultado."
             case _:
                 return ""
 
@@ -344,7 +344,7 @@ class PrivateGptUi:
             gr.List(self._list_ingested_files()),
             gr.components.Button(interactive=False),
             gr.components.Button(interactive=False),
-            gr.components.Textbox("All files"),
+            gr.components.Textbox("Todos los archivos"),
         ]
 
     def _deselect_selected_file(self) -> Any:
@@ -352,7 +352,7 @@ class PrivateGptUi:
         return [
             gr.components.Button(interactive=False),
             gr.components.Button(interactive=False),
-            gr.components.Textbox("All files"),
+            gr.components.Textbox("Todos los archivos"),
         ]
 
     def _selected_a_file(self, select_data: gr.SelectData) -> Any:
@@ -370,7 +370,7 @@ class PrivateGptUi:
             theme=gr.themes.Soft(primary_hue=slate),
             css=".logo { "
             "display:flex;"
-            "background-color: #C7BAFF;"
+            "background-color: #DADADA;"
             "height: 80px;"
             "border-radius: 8px;"
             "align-content: center;"
@@ -386,7 +386,7 @@ class PrivateGptUi:
             ".avatar-image { background-color: antiquewhite; border-radius: 2px; }"
             ".footer { text-align: center; margin-top: 20px; font-size: 14px; display: flex; align-items: center; justify-content: center; }"
             ".footer-zylon-link { display:flex; margin-left: 5px; text-decoration: auto; color: var(--body-text-color); }"
-            ".footer-zylon-link:hover { color: #C7BAFF; }"
+            ".footer-zylon-link:hover { color: #DADADA; }"
             ".footer-zylon-ico { height: 20px; margin-left: 5px; background-color: antiquewhite; border-radius: 2px; }",
         ) as blocks:
             with gr.Row():
@@ -397,7 +397,7 @@ class PrivateGptUi:
                     default_mode = self._default_mode
                     mode = gr.Radio(
                         [mode.value for mode in MODES],
-                        label="Mode",
+                        label="Modo",
                         value=default_mode,
                     )
                     explanation_mode = gr.Textbox(
@@ -407,7 +407,7 @@ class PrivateGptUi:
                         interactive=False,
                     )
                     upload_button = gr.components.UploadButton(
-                        "Upload File(s)",
+                        "Subir Fichero(s)",
                         type="filepath",
                         file_count="multiple",
                         size="sm",
@@ -415,7 +415,7 @@ class PrivateGptUi:
                     ingested_dataset = gr.List(
                         self._list_ingested_files,
                         headers=["File name"],
-                        label="Ingested Files",
+                        label="Ficheros Procesados",
                         height=235,
                         interactive=False,
                         render=False,  # Rendered under the button
@@ -431,19 +431,19 @@ class PrivateGptUi:
                     )
                     ingested_dataset.render()
                     deselect_file_button = gr.components.Button(
-                        "De-select selected file", size="sm", interactive=False
+                        "De-seleccionar fichero seleccionado", size="sm", interactive=False
                     )
                     selected_text = gr.components.Textbox(
-                        "All files", label="Selected for Query or Deletion", max_lines=1
+                        "Todos los ficheros", label="Seleccionado for Buscar o Eliminar", max_lines=1
                     )
                     delete_file_button = gr.components.Button(
-                        "🗑️ Delete selected file",
+                        "🗑️ Eliminar fichero seleccionado",
                         size="sm",
                         visible=settings().ui.delete_file_button_enabled,
                         interactive=False,
                     )
                     delete_files_button = gr.components.Button(
-                        "⚠️ Delete ALL files",
+                        "⚠️ Eliminar TODOS los ficheros",
                         size="sm",
                         visible=settings().ui.delete_all_files_button_enabled,
                     )
@@ -483,7 +483,7 @@ class PrivateGptUi:
                     )
                     system_prompt_input = gr.Textbox(
                         placeholder=self._system_prompt,
-                        label="System Prompt",
+                        label="Output del sistema",
                         lines=2,
                         interactive=True,
                         render=False,
