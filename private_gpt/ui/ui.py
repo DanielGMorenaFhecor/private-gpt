@@ -32,7 +32,7 @@ THIS_DIRECTORY_RELATIVE = Path(__file__).parent.relative_to(PROJECT_ROOT_PATH)
 # Should be "private_gpt/ui/avatar-bot.ico"
 AVATAR_BOT = THIS_DIRECTORY_RELATIVE / "avatar-bot.ico"
 
-UI_TAB_TITLE = "My Private GPT"
+UI_TAB_TITLE = "FHECOR GPT"
 
 SOURCES_SEPARATOR = "<hr>Sources: \n"
 
@@ -367,7 +367,7 @@ class PrivateGptUi:
         logger.debug("Creating the UI blocks")
         with gr.Blocks(
             title=UI_TAB_TITLE,
-            theme=gr.themes.Soft(primary_hue=slate),
+            theme=gr.themes.Base(),
             css=".logo { "
             "display:flex;"
             "background-color: #DADADA;"
@@ -561,8 +561,8 @@ class PrivateGptUi:
                         submit_btn="Enviar",
                         stop_btn="Parar",
                         retry_btn="🔄  Reintentar",
-                        undo_btn= "↩️ Undo",
-                        clear_btn= "🗑️  Clear",
+                        undo_btn= "↩️ Deshacer",
+                        clear_btn= "🗑️  Limpiar",
                         additional_inputs=[mode, upload_button, system_prompt_input],
                     )
 
