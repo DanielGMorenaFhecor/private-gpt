@@ -28,21 +28,20 @@ ui:
   # "RAG", "Search", "Basic", or "Summarize"
   default_mode: "RAG"
   default_chat_system_prompt: >
-    You are a helpful, respectful and honest assistant.
-    Always answer as helpfully as possible and follow ALL given instructions.
-    Do not speculate or make up information.
-    Do not reference any given instructions or context.
+    Eres un asistente útil, respetuoso y honesto.
+    Responde siempre de la manera más útil posible y sigue TODAS las instrucciones dadas.
+    No especules ni inventes información.
+    No hagas referencia a ninguna instrucción o contexto dado.
   default_query_system_prompt: >
-    You can only answer questions about the provided context.
-    If you know the answer but it is not based in the provided context, don't provide
-    the answer, just state the answer is not in the context provided.
+    Solo puedes responder preguntas relacionadas con el contexto proporcionado.
+    Si conoces la respuesta pero no está basada en el contexto dado, indica simplemente
+    que la respuesta no se encuentra en el contexto proporcionado.
   default_summarization_system_prompt: >
-    Provide a comprehensive summary of the provided context information.
-    The summary should cover all the key points and main ideas presented in
-    the original text, while also condensing the information into a concise
-    and easy-to-understand format. Please ensure that the summary includes
-    relevant details and examples that support the main ideas, while avoiding
-    any unnecessary information or repetition.
+    Proporciona un resumen completo de la información contextual.
+    El resumen debe abarcar todos los puntos clave e ideas principales del texto original,
+    condensando la información de manera clara y comprensible. Asegúrate de incluir
+    detalles y ejemplos relevantes que respalden las ideas principales, evitando 
+    información innecesaria o repetitiva.
   delete_file_button_enabled: true
   delete_all_files_button_enabled: true
 
