@@ -7,7 +7,7 @@ services:
   # Private-GPT service for the Ollama CPU and GPU modes
   # This service builds from an external Dockerfile and runs the Ollama mode.
   private-gpt-ollama:
-    image: ${PGPT_IMAGE:-zylonai/private-gpt}:${PGPT_TAG:-0.6.2}-ollama  # x-release-please-version
+    # image: ${PGPT_IMAGE:-zylonai/private-gpt}:${PGPT_TAG:-0.6.2}-ollama  # x-release-please-version
     user: root
     build:
       context: .
@@ -62,11 +62,11 @@ services:
   ollama:
     image: traefik:v2.10
     healthcheck:
-      test: ["CMD", "sh", "-c", "wget -q --spider http://ollama:11434 || exit 1"]
-      interval: 10s
-      retries: 3
-      start_period: 5s
-      timeout: 5s
+      test: ["CMD", "sh", "-c", "wget -q --spider http://ollama:11434/api/tags || exit 1"]
+      interval: 15s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
     ports:
       - "8080:8080"
     command:
@@ -105,6 +105,7 @@ services:
       - "11434:11434"
     volumes:
       - ./models:/root/.ollama
+    runtime: nvidia
     deploy:
       resources:
         reservations:
@@ -112,5 +113,8 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all  # Expose all GPUs
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility  # Set required driver capabilities
     profiles:
       - ollama-cuda
