@@ -87,18 +87,21 @@ class IngestionHelper:
                 "No reader found for extension=%s, using default string reader",
                 extension,
             )
-            # Read as a plain text
+            # Read as plain text with encoding fallback
             string_reader = StringIterableReader()
-            return string_reader.load_data([file_data.read_text()])
+            try:
+                # Attempt to read the file with UTF-8 encoding
+                content = file_data.read_text(encoding="utf-8")
+            except UnicodeDecodeError:
+                logger.warning(
+                    "UTF-8 decoding failed for file_name=%s, attempting latin1", file_name
+                )
+                # Fallback to latin1 or another compatible encoding
+                content = file_data.read_text(encoding="latin1")
+            return string_reader.load_data([content])
 
-        logger.debug("Specific reader found for extension=%s", extension)
-        documents = reader_cls().load_data(file_data)
-
-        # Sanitize NUL bytes in text which can't be stored in Postgres
-        for i in range(len(documents)):
-            documents[i].text = documents[i].text.replace("\u0000", "")
-
-        return documents
+        # Use the appropriate reader class if available
+        return reader_cls().load_data(file_data)
 
     @staticmethod
     def _exclude_metadata(documents: list[Document]) -> None:

@@ -10,6 +10,14 @@ http:
           - url: http://ollama-cuda:11434
           - url: http://host.docker.internal:11434
 
+  middlewares:
+    utf8-encoding:
+      headers:
+        customResponseHeaders:
+          Content-Type: "application/json; charset=utf-8"
+        customRequestHeaders:
+          Accept-Charset: "utf-8"
+
   routers:
     ollama-router:
       rule: "PathPrefix(`/`)"
