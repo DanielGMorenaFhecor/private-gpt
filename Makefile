@@ -60,6 +60,12 @@ wipe:
 setup:
 	poetry run python scripts/setup
 
+build_image:
+	docker build -t fh-conocimiento:1.0.0 -f Dockerfile.azopenai .
+
+run_container:
+	docker run --name fh-conocimiento --env-file .env -p 8083:8080 fh-conocimiento:1.0.0
+
 list:
 	@echo "Available commands:"
 	@echo "  test            : Run tests using pytest"

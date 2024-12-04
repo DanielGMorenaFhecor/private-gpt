@@ -1,0 +1,52 @@
+FROM python:3.11.6-slim-bookworm AS base
+
+# Labelling
+LABEL org.opencontainers.image.title="fh-conocimiento"
+LABEL org.opencontainers.image.version="1.0.0"
+LABEL org.opencontainers.image.description="Chatbot for fetching from fhecor's knowledge database."
+LABEL org.opencontainers.image.authors="fhecor, dgm<dgm@fhecor.es>"
+LABEL org.opencontainers.image.source="https://github.com/DanielGMorenaFhecor/private-gpt"
+LABEL org.opencontainers.image.url="ghcr.io/DanielGMorenaFhecor/private-gpt"
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    make \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a non-root user
+RUN useradd -m -s /bin/bash worker
+
+# Switch to the non-root user and set the working directory
+USER worker
+WORKDIR /home/worker/app
+
+# Install Poetry as the worker user
+ENV POETRY_HOME="/home/worker/.local"
+ENV PATH="$POETRY_HOME/bin:$PATH"
+RUN curl -sSL https://install.python-poetry.org | python3 -
+
+# Copy dependency files
+COPY --chown=worker:worker pyproject.toml poetry.lock ./
+
+# Install dependencies with Poetry
+ARG POETRY_EXTRAS="ui vector-stores-qdrant llms-azopenai embeddings-azopenai"
+RUN poetry install --no-root --extras "${POETRY_EXTRAS}"
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PORT=8080 \
+    APP_ENV=prod \
+    PYTHONPATH="/home/worker/app/private_gpt/"
+
+# Expose the application port
+EXPOSE 8080
+
+# Copy application files
+COPY --chown=worker:worker private_gpt/ private_gpt
+COPY --chown=worker:worker *.yaml .
+COPY --chown=worker:worker scripts/ scripts
+COPY --chown=worker:worker Makefile .
+
+# Entrypoint
+ENTRYPOINT ["make", "run"]
