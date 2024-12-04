@@ -1,0 +1,10 @@
+services:
+  private-gpt:
+    image: ghcr.io/danielgmorenafhecor/private-gpt:latest
+    container_name: fh-conocimiento
+    ports:
+      - "8083:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./local_data:/home/worker/app/local_data

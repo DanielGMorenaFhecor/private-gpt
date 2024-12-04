@@ -34,9 +34,9 @@ jobs:
       # Step 4: Build the Docker image
       - name: Build Docker Image
         run: |
-          docker build -f Dockerfile.azopenai -t ghcr.io/${{ steps.set_lowercase_owner.outputs.owner_lowercase }}/private-gpt:latest .
+          docker build -f Dockerfile.azopenai -t ghcr.io/${{ steps.set_lowercase_owner.outputs.owner_lowercase }}/fh-conocimiento:latest .
 
       # Step 5: Push the Docker image
       - name: Push Docker Image
         run: |
-          docker push ghcr.io/${{ steps.set_lowercase_owner.outputs.owner_lowercase }}/private-gpt:latest
+          docker push ghcr.io/${{ steps.set_lowercase_owner.outputs.owner_lowercase }}/fh-conocimiento:latest
