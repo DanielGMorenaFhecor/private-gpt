@@ -1,6 +1,6 @@
 services:
   private-gpt:
-    image: ghcr.io/danielgmorenafhecor/private-gpt:latest
+    image: ghcr.io/danielgmorenafhecor/fh-conocimiento:latest
     container_name: fh-conocimiento
     ports:
       - "8083:8080"
